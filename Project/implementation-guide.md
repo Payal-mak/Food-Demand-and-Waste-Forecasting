@@ -331,9 +331,8 @@ config['lookback'] = 5
 ## Support and Contact
 
 For technical support or research collaboration:
-- **Email**: [Your Email]
-- **GitHub**: [Repository URL]
-- **Documentation**: [Documentation URL]
+- **Email**: [iampayal018@gmail.com]
+- **GitHub**: [[Repository URL](https://github.com/Payal-mak)]
 
 ---
 
