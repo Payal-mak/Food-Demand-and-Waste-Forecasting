@@ -337,10 +337,6 @@ For technical support or research collaboration:
 
 ---
 
-## License
-
-This project is licensed under the MIT License. See LICENSE file for details.
-
 ## Acknowledgments
 
 - Weather data provided by WeatherAPI
@@ -349,5 +345,3 @@ This project is licensed under the MIT License. See LICENSE file for details.
 - Google Trends for consumer behavior insights
 
 ---
-
-**Built with ❤️ for sustainable food supply chain management**
