@@ -41,7 +41,8 @@ def train_model():
     if not os.path.exists('saved_models'):
         os.makedirs('saved_models')
 
-    model.save('saved_models/lstm_model.h5')
+    # Change this line
+    model.save('saved_models/lstm_model.keras') # Use the new .keras format
     with open('saved_models/scaler_X.pkl', 'wb') as f:
         pickle.dump(scaler_X, f)
     with open('saved_models/scaler_y.pkl', 'wb') as f:
