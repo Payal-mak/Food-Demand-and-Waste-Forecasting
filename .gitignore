@@ -1,1 +1,13 @@
 .venv/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Keras/Tensorflow model files (optional, but good practice for large models)
+# *.h5
+# *.keras
+
+# Distribution / build artifacts
+.idea/
+.vscode/
