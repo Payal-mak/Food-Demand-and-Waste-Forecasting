@@ -28,17 +28,17 @@ Improve planning accuracy, reduce food waste, and contribute to sustainable food
 
 The repository is organized into functional modules:
 
-/data - Data generation and ingestion scripts
-/preprocessing - Feature engineering, scaling, time-series sequence creation
-/api_integrations - External data fetching (e.g., weather API)
-/models - LSTM model architecture and placeholders for advanced models
-/training - Training pipeline with Optuna hyperparameter tuning
-/prediction - Scripts to load models and make predictions
-/deployment - Flask API server for predictions
-/database - SQLite database for logging predictions
-/tests - Pytest-based automated tests
-/utils - Visualization and helper scripts
-/saved_models - Serialized trained models and scalers
+- `/data`: Data generation and ingestion scripts  
+- `/preprocessing`: Feature engineering, scaling, time-series sequence creation  
+- `/api_integrations`: External data fetching (e.g., weather API)  
+- `/models`: LSTM model architecture and placeholders for advanced models  
+- `/training`: Training pipeline with Optuna hyperparameter tuning  
+- `/prediction`: Scripts to load models and make predictions  
+- `/deployment`: Flask API server for predictions  
+- `/database`: SQLite database for logging predictions  
+- `/tests`: Pytest-based automated tests  
+- `/utils`: Visualization and helper scripts  
+- `/saved_models`: Serialized trained models and scalers  
 
 ---
 
