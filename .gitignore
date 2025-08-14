@@ -1,4 +1,5 @@
 .venv/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -11,3 +12,11 @@ __pycache__/
 # Distribution / build artifacts
 .idea/
 .vscode/
+
+# Log and database files
+*.log
+*.db
+*.sqlite3
+
+# Other generated files
+allfiles.txt
