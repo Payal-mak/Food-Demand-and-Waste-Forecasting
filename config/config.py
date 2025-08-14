@@ -1,11 +1,9 @@
 import os
 
 # API keys (set your environment variables or replace with string literal for testing)
-WEATHER_API_KEY = os.getenv('WEATHER_API_KEY', '7821c9e72f4e4800865173905250608')
 FUEL_API_KEY = os.getenv('FUEL_API_KEY', 'YOUR_FUEL_API_KEY_HERE')
 
 # API endpoints
-WEATHER_API_URL = 'https://api.weatherapi.com/v1/history.json'
 FUEL_API_URL = 'https://api.example.com/fuelprice'  # Replace with real API if available
 
 # Data paths
