@@ -40,8 +40,6 @@ The repository is organized into functional modules:
 /utils - Visualization and helper scripts
 /saved_models - Serialized trained models and scalers
 
-text
-
 ---
 
 ## ⚙️ Methodology
@@ -86,7 +84,6 @@ git clone https://github.com/Payal-mak/Food-Demand-and-Waste-Forecasting.git
 cd Food-Demand-and-Waste-Forecasting
 pip install -r requirements.txt
 
-text
 
 ---
 
@@ -96,13 +93,11 @@ text
 
 python training/train_models.py
 
-text
 
 ### **2. Run the API Server**
 
 python deployment/flask_api.py
 
-text
 Server will start at:  
 `http://127.0.0.1:5001/predict`
 
@@ -115,7 +110,6 @@ curl -X POST http://127.0.0.1:5001/predict
 -H "Content-Type: application/json"
 -d '{"features": [[...10 weeks of scaled feature data...]]}'
 
-text
 
 **Expected Response:**
 {
@@ -123,7 +117,6 @@ text
 "waste_forecast": [...]
 }
 
-text
 
 Every prediction will be stored in:  
 `database/predictions.db`
@@ -134,8 +127,6 @@ Every prediction will be stored in:
 
 Run:
 python utils/evaluate_model.py
-
-text
 
 Generates:
 
@@ -167,8 +158,6 @@ Generates:
 
 pytest tests/
 
-text
-
 Automated tests ensure:
 
 - API endpoint responds successfully
@@ -182,4 +171,3 @@ Automated tests ensure:
 **Payal Makwana**  
 Mail - iampayal018@gmail.com
 📧 Contact via GitHub Issues for questions or contributions.
->>>>>>> a09707f (update README.md)
