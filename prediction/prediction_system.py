@@ -4,12 +4,13 @@ from tensorflow.keras.models import load_model
 from config.config import LOOKBACK_PERIOD
 
 class PredictionSystem:
-    def __init__(self, model_path='saved_models/lstm_model.h5', scaler_x_path='saved_models/scaler_X.pkl', scaler_y_path='saved_models/scaler_y.pkl'):
+    # Change the default path in the function definition
+    def __init__(self, model_path='saved_models/lstm_model.keras', scaler_x_path='saved_models/scaler_X.pkl', scaler_y_path='saved_models/scaler_y.pkl'):
         """
         Initializes the prediction system by loading the trained model and scalers.
         """
         print("Loading prediction system...")
-        self.model = load_model(model_path)
+        self.model = load_model(model_path) # This will now load the .keras file
         with open(scaler_x_path, 'rb') as f:
             self.scaler_X = pickle.load(f)
         with open(scaler_y_path, 'rb') as f:
