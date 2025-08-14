@@ -1,7 +1,5 @@
 # Unified Multivariate and Dual-Objective Forecasting Model for Sustainable Food Supply Chains
 
-<<<<<<< HEAD
-=======
 **Author:** Payal Makwana  
 **Date:** August 14, 2025  
 **Repository:** [Food-Demand-and-Waste-Forecasting](https://github.com/Payal-mak/Food-Demand-and-Waste-Forecasting)
