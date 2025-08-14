@@ -1,53 +1,53 @@
+from flask import Flask, request, jsonify
+import pandas as pd
 import numpy as np
-import pickle
-from tensorflow.keras.models import load_model
-from config.config import LOOKBACK_PERIOD
+import os
+import sys
 
-class PredictionSystem:
-    def __init__(self, model_path='saved_models/lstm_model.h5', scaler_x_path='saved_models/scaler_X.pkl', scaler_y_path='saved_models/scaler_y.pkl'):
-        """
-        Initializes the prediction system by loading the trained model and scalers.
-        """
-        print("Loading prediction system...")
-        self.model = load_model(model_path)
-        with open(scaler_x_path, 'rb') as f:
-            self.scaler_X = pickle.load(f)
-        with open(scaler_y_path, 'rb') as f:
-            self.scaler_y = pickle.load(f)
-        print("Prediction system loaded successfully.")
+# --- Add project root to the Python path ---
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(project_root)
+# ----------------------------------------------------
 
-    def predict(self, input_data_df):
-        """
-        Makes a prediction for demand and waste.
-        Args:
-            input_data_df (pd.DataFrame): A DataFrame containing the last 10 weeks of data
-                                         with the same features used in training.
-        Returns:
-            A tuple containing the predicted demand and waste.
-        """
-        if len(input_data_df) < LOOKBACK_PERIOD:
-            raise ValueError(f"Input data must contain at least {LOOKBACK_PERIOD} rows for lookback.")
+from prediction.prediction_system import PredictionSystem
 
-        # Use the last 'lookback' period of rows
-        input_sequence_df = input_data_df.tail(LOOKBACK_PERIOD)
-        
-        # Scale the input features
-        scaled_input = self.scaler_X.transform(input_sequence_df)
-        
-        # Reshape for the model (1 sample, lookback_period steps, num_features)
-        reshaped_input = np.reshape(scaled_input, (1, scaled_input.shape[0], scaled_input.shape[1]))
-        
-        # Get the scaled prediction from the model
-        scaled_pred = self.model.predict(reshaped_input)
-        
-        # The output is a list of two arrays [demand_pred, waste_pred]
-        # We need to reshape it to (1, 2) for the inverse scaler
-        pred_reshaped = np.array(scaled_pred).T.reshape(1, -1)
+app = Flask(__name__)
 
-        # Inverse transform the prediction to get the actual values
-        final_prediction = self.scaler_y.inverse_transform(pred_reshaped)
+# Initialize the prediction system when the app starts
+print("Initializing Prediction System. This may take a moment...")
+prediction_system = PredictionSystem()
+print("Prediction System ready.")
+
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    """
+    API endpoint to make a prediction.
+    """
+    try:
+        json_data = request.get_json()
+        if not json_data or 'features' not in json_data:
+            return jsonify({'error': "Missing 'features' in request body"}), 400
+            
+        features = json_data['features']
         
-        predicted_demand = final_prediction[0][0]
-        predicted_waste = final_prediction[0][1]
-        
-        return predicted_demand, predicted_waste
+        columns = ['num_orders', 'waste_kg', 'is_holiday', 'temperature', 'fuel_price', 'inflation_index']
+        input_df = pd.DataFrame(features, columns=columns)
+
+        demand, waste = prediction_system.predict(input_df)
+
+        # --- THE FIX IS HERE ---
+        # Convert the numpy.float32 types to standard Python floats
+        # before creating the JSON response.
+        return jsonify({
+            'predicted_demand': float(demand),
+            'predicted_waste': float(waste)
+        })
+
+    except Exception as e:
+        print(f"An error occurred during prediction: {e}")
+        return jsonify({'error': 'An internal error occurred. Please check the server logs.'}), 500
+
+# --- This makes the script directly runnable ---
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5001, debug=True)
