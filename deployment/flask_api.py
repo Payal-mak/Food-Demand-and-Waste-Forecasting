@@ -10,14 +10,20 @@ sys.path.append(project_root)
 # ----------------------------------------------------
 
 from prediction.prediction_system import PredictionSystem
+# Corrected: Only import the functions you will call
+from database.database_manager import save_prediction, create_table
+from datetime import datetime
 
 app = Flask(__name__)
 
-# Initialize the prediction system when the app starts
+# --- Run the setup function once to ensure the DB and table exist ---
+create_table()
+# --------------------------------------------------------------------
+
+
 print("Initializing Prediction System. This may take a moment...")
 prediction_system = PredictionSystem()
 print("Prediction System ready.")
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -36,9 +42,12 @@ def predict():
 
         demand, waste = prediction_system.predict(input_df)
 
-        # --- THE FIX IS HERE ---
-        # Convert the numpy.float32 types to standard Python floats
-        # before creating the JSON response.
+        current_week = datetime.now().strftime('%Y-%m-%d')
+        
+        # --- CORRECTED DATABASE CALL ---
+        # Pass the database path directly. The function will handle the connection.
+        save_prediction('predictions.db', current_week, float(demand), float(waste))
+
         return jsonify({
             'predicted_demand': float(demand),
             'predicted_waste': float(waste)
@@ -48,6 +57,5 @@ def predict():
         print(f"An error occurred during prediction: {e}")
         return jsonify({'error': 'An internal error occurred. Please check the server logs.'}), 500
 
-# --- This makes the script directly runnable ---
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5001, debug=True)
